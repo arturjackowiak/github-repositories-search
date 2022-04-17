@@ -1,23 +1,17 @@
 import ActionTypes from './types'
 
-const setRepositories = (repositories: []) => ({
-  type: ActionTypes.SET_REPOS,
-  payload: repositories,
+const setRepositories = (key: string, data: []) => ({
+  type: ActionTypes.SET_DATA,
+  payload: { key, data },
 })
 
-const setLoading = (loading: boolean) => ({
+const setLoading = (payload: boolean) => ({
   type: ActionTypes.SET_LOADING,
-  payload: loading,
-})
-
-const addToCache = (query: string, repositories: []) => ({
-  type: ActionTypes.ADD_TO_CACHE,
-  payload: { [query]: { ...repositories } },
+  payload,
 })
 
 const Actions = {
   setRepositories,
-  addToCache,
   setLoading,
 }
 

@@ -1,25 +1,40 @@
-import { Dispatch } from 'redux'
-import actions from './actions'
+import { Action, Dispatch } from 'redux'
+import { ThunkDispatch } from 'redux-thunk'
+import Actions from './actions'
+import ActionTypes from './types'
 
 const apiUrl = 'https://api.github.com/search/repositories'
 
-const fetchRepositories = async (query: string) => {
-  const response = await fetch(`${apiUrl}?q=${query}`, {
-    method: 'GET',
-  })
-  const json = await response.json()
+export const getRepositories =
+  (query: string) => async (dispatch: ThunkDispatch<any, void, Action>) => {
+    try {
+      dispatch({
+        type: ActionTypes.SET_LOADING,
+        payload: true,
+      })
+      const response = await fetch(`${apiUrl}?q=${query}`, {
+        method: 'GET',
+      })
+      const json = await response.json()
 
-  return json.items
-}
-
-export const getSpecificRepositories =
-  (query: string) => async (dispatch: Dispatch) => {
-    dispatch(actions.setLoading(true))
-    const repositories = await fetchRepositories(query)
-    dispatch(actions.setRepositories(repositories))
-    dispatch(actions.addToCache(query, repositories))
+      dispatch({
+        type: ActionTypes.SET_DATA,
+        payload: { key: query, data: json.items },
+      })
+    } catch (error: any) {
+      dispatch({
+        type: ActionTypes.SET_LOADING,
+        payload: false,
+      })
+      switch (error.message) {
+        default:
+          console.error(error)
+          throw new Error('Unknown error!')
+      }
+    }
   }
 
-export const setDataFromCache = (data: []) => (dispatch: Dispatch) => {
-  dispatch(actions.setRepositories(data))
-}
+export const setDataFromCache =
+  (key: string, data: []) => (dispatch: Dispatch) => {
+    dispatch(Actions.setRepositories(key, data ))
+  }
