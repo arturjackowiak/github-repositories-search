@@ -9,25 +9,33 @@ import {
   setRowSize,
 } from '../../../../store/repositories/operations'
 import { AppDispatch } from '../../../../store/store'
+import { useSearchParams } from 'react-router-dom'
 
 const { Option } = Select
 
 export const SearchForm = () => {
-  const [value, setValue] = useState<string>('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [value, setValue] = useState<string>(searchParams.get('query') || '')
+  const [row, setRow] = useState<string>(searchParams.get('row') || '10')
   const dispatch = useDispatch<AppDispatch>()
+  console.log(row)
 
   const cache = useSelector(CacheByKeySelector(value))
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
   }
 
-  const handleChangeSelect = (value: number) => {
-    dispatch(setRowSize(value))
+  const handleChangeSelect = (selectedValue: number) => {
+    setSearchParams({ query: value, row: selectedValue.toString() })
+    setRow(selectedValue.toString())
+    dispatch(setRowSize(selectedValue))
   }
 
   useEffect(() => {
     const fetchRepositories = setTimeout(() => {
       if (value) {
+        setSearchParams({ query: value, row: row })
+        dispatch(setRowSize(parseInt(row)))
         if (!cache) dispatch(getRepositories(value))
         else dispatch(setDataFromCache(value, cache))
       }
@@ -43,8 +51,8 @@ export const SearchForm = () => {
         onChange={handleChangeInput}
       />
       <Select
-      placeholder={"Number of rows"}
-        defaultValue={5}
+        placeholder={'Number of rows'}
+        value={parseInt(row)}
         style={{ width: 120 }}
         onChange={handleChangeSelect}
       >
