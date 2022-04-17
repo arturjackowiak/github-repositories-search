@@ -21,3 +21,8 @@ export const LoadingSelector = createSelector(
   StoreSelector,
   (repositories) => repositories.loading
 )
+
+export const RowSelector = createSelector(
+  StoreSelector,
+  (repositories) => repositories.rowSize
+)

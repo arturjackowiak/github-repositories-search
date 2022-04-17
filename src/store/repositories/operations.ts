@@ -36,5 +36,9 @@ export const getRepositories =
 
 export const setDataFromCache =
   (key: string, data: []) => (dispatch: Dispatch) => {
-    dispatch(Actions.setRepositories(key, data ))
+    dispatch(Actions.setRepositories(key, data))
   }
+
+export const setRowSize = (size: number) => (dispatch: Dispatch) => {
+  dispatch(Actions.setRowSize(size))
+}
