@@ -2,7 +2,7 @@ import { Wrapper } from './repositoriesList.styles'
 import { Spin } from 'antd'
 import { Table } from 'antd'
 import { useSelector } from 'react-redux'
-import { RepositoriesDataSelector } from '../../../../store/repositories/selectors'
+import { LoadingSelector, RepositoriesDataSelector } from '../../../../store/repositories/selectors'
 
 const columns = [
   {
@@ -12,35 +12,36 @@ const columns = [
   },
   {
     title: 'Owner',
-    dataIndex: 'owner.login',
+    dataIndex: 'full_name',
+    render: (name:string) => name.substring(0, name.indexOf("/")),
     key: 'owner',
   },
   {
     title: 'Stars',
-    dataIndex: 'stargazersCount',
+    dataIndex: 'stargazers_count',
     key: 'stars',
   },
   {
     title: 'Created at',
-    dataIndex: 'createdAt',
+    dataIndex: 'created_at',
+    render: (date:string) => date.substring(0, date.indexOf("T")),
     key: 'createdAt',
   },
 ]
 
-export const RepositoriesList = (props: any) => {
+export const RepositoriesList = () => {
+  const repositoriesList = useSelector(RepositoriesDataSelector)
+  const loading = useSelector(LoadingSelector)
 
-  function onChange(pagination: any, filters: any, sorter: any, extra: any) {
-    console.log('params', pagination, filters, sorter, extra)
-  }
+
   return (
     <Wrapper>
-      {false ? (
+      {loading ? (
         <Spin />
       ) : (
         <Table
           columns={columns}
-          dataSource={props.repositoriesList}
-          onChange={onChange}
+          dataSource={repositoriesList}
         />
       )}
     </Wrapper>

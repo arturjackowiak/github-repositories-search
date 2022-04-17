@@ -11,7 +11,6 @@ export const INITIAL_STATE = {
 const repositoriesReducer = (state = INITIAL_STATE, action: AnyAction) => {
   switch (action.type) {
     case ActionTypes.SET_DATA:
-      console.log(action.payload)
       return {
         ...state,
         data: [...action.payload.data],

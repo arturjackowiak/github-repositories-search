@@ -1,6 +1,6 @@
 import { Wrapper } from './searchForm.styles'
 import { Button, Input } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CacheByKeySelector } from '../../../../store/repositories/selectors'
 import {
@@ -18,10 +18,15 @@ export const SearchForm = () => {
     setValue(e.target.value)
   }
 
-  const handleClick = () => {
-    if (!cache) dispatch(getRepositories(value))
-    else dispatch(setDataFromCache(value, cache))
-  }
+  useEffect(() => {
+    const fetchRepositories = setTimeout(() => {
+      if (value) {
+        if (!cache) dispatch(getRepositories(value))
+        else dispatch(setDataFromCache(value, cache))
+      }
+    }, 500)
+    return (): void => clearTimeout(fetchRepositories);
+  }, [cache, dispatch, value])
 
   return (
     <Wrapper>
@@ -30,9 +35,6 @@ export const SearchForm = () => {
         value={value}
         onChange={handleChange}
       />
-      <Button type="primary" onClick={handleClick}>
-        Search
-      </Button>
     </Wrapper>
   )
 }
