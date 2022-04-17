@@ -10,15 +10,9 @@ const setLoading = (payload: boolean) => ({
   payload,
 })
 
-const setRowSize = (payload: number) => ({
-  type: ActionTypes.SET_ROW_SIZE,
-  payload,
-})
-
 const Actions = {
   setRepositories,
   setLoading,
-  setRowSize,
 }
 
 export default Actions

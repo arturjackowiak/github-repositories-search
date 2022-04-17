@@ -6,7 +6,6 @@ export const INITIAL_STATE = {
   cache: {},
   loading: false,
   error: {},
-  rowSize: 5,
 }
 
 const repositoriesReducer = (state = INITIAL_STATE, action: AnyAction) => {
@@ -25,11 +24,6 @@ const repositoriesReducer = (state = INITIAL_STATE, action: AnyAction) => {
       return {
         ...state,
         loading: action.payload,
-      }
-      case ActionTypes.SET_ROW_SIZE:
-      return {
-        ...state,
-        rowSize: action.payload,
       }
     default:
       return state
