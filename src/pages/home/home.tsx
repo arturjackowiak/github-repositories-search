@@ -1,3 +1,10 @@
+import { Wrapper } from './home.styles'
+import { SearchForm } from './components/searchForm'
+
 export const Home = () => {
-  return <div>Home</div>
+  return (
+    <Wrapper>
+      <SearchForm />
+    </Wrapper>
+  )
 }
