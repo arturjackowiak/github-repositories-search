@@ -15,7 +15,7 @@ const { Option } = Select
 export const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [value, setValue] = useState<string>(searchParams.get('query') || '')
-  const row = searchParams.get('row')
+  const rows = searchParams.get('rows')
   const dispatch = useDispatch<AppDispatch>()
 
   const cache = useSelector(CacheByKeySelector(value))
@@ -27,7 +27,7 @@ export const SearchForm = () => {
   const handleChangeSelect = (selectedValue: number) => {
     setSearchParams({
       ...Object.fromEntries([...searchParams]),
-      row: selectedValue.toString(),
+      rows: selectedValue.toString(),
     })
   }
 
@@ -43,7 +43,7 @@ export const SearchForm = () => {
       }
     }, 500)
     return (): void => clearTimeout(fetchRepositories)
-  }, [cache, dispatch, searchParams, setSearchParams, value])
+  }, [value])
 
   return (
     <Wrapper>
@@ -54,7 +54,7 @@ export const SearchForm = () => {
       />
       <Select
         placeholder={'Number of rows'}
-        value={row ? parseInt(row) : 10}
+        value={rows ? parseInt(rows) : 10}
         style={{ width: 120 }}
         onChange={handleChangeSelect}
       >

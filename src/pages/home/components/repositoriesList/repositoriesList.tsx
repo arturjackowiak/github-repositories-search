@@ -12,7 +12,7 @@ export const RepositoriesList = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const repositoriesList = useSelector(RepositoriesDataSelector)
   const loading = useSelector(LoadingSelector)
-  const { currentPage, sortOrder, sortColumn, rowSize }: any = {
+  const { currentPage, sortOrder, sortColumn, rows }: any = {
     ...Object.fromEntries([...searchParams]),
   }
 
@@ -80,7 +80,7 @@ export const RepositoriesList = () => {
           dataSource={repositoriesList}
           size="small"
           pagination={{
-            pageSize: parseInt(rowSize || 5),
+            pageSize: parseInt(rows || 5),
             current: parseInt(currentPage) || 1,
           }}
           onChange={handleChange}
