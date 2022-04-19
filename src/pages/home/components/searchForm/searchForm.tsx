@@ -43,7 +43,7 @@ export const SearchForm = () => {
       }
     }, 500)
     return (): void => clearTimeout(fetchRepositories)
-  }, [value])
+  }, [cache, dispatch, searchParams, setSearchParams, value])
 
   return (
     <Wrapper>
