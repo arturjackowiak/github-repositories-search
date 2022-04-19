@@ -80,7 +80,7 @@ export const RepositoriesList = () => {
           dataSource={repositoriesList}
           size="small"
           pagination={{
-            pageSize: parseInt(rows || 5),
+            pageSize: parseInt(rows || 10),
             current: parseInt(currentPage) || 1,
           }}
           onChange={handleChange}
