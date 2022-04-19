@@ -57,6 +57,7 @@ export const SearchForm = () => {
         value={rows ? parseInt(rows) : 10}
         style={{ width: 120 }}
         onChange={handleChangeSelect}
+        id={"rows-selector"}
       >
         <Option value={5}>5</Option>
         <Option value={10}>10</Option>
